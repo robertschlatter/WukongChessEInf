@@ -126,7 +126,7 @@
   function makeMove() {
     // make computer move
     setTimeout(function() {
-      let bestMove = engine.searchTime(1); // search for 1 second
+      let bestMove = engine.searchTime(1000); // search for 1 second
       engine.makeMove(bestMove);
       //play move sound
       playGameSound(bestMove);

@@ -1,10 +1,21 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="{% static 'StartScreen/css/startScreenLobby.css'%}">
 </head>
-<body style="background-image: url('/static/StartScreen/img/startScreenBackground.png');background-size: 90%;">
+<body>
+  <!-- Add navbar at the top -->
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
 
+  <script src="script.js"></script>
 </body>
 </html>
