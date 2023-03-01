@@ -15,11 +15,28 @@
     <link rel="stylesheet" href="{% static 'PlayWukong/css/chessboard-1.0.0.min.css' %}">
     <script src="{% static 'PlayWukong/js/chessboard-1.0.0.min.js' %}"></script>
 
+    <!-- own stylesheet -->
+    <link rel="stylesheet" href="{% static 'PlayWukong/css/wukong_chessboardjs.css' %}">
+
     <!-- WukongJS chess engine -->
     <script src="{% static 'PlayWukong/js/wukong.js' %}"></script>
 
   </head>
   <body>
+
+    <!-- Add navbar at the top -->
+    <nav>
+      <div class="navbar-left">
+        <a href="/">Home</a>
+        <a href="/playWukong/1">Play Wukong</a>
+        <a href="/playPlayer/1">Play Player</a>
+        <a href="#">About</a>
+      </div>
+      <div class="navbar-right">
+        <a href="#">Login</a>
+      </div>
+    </nav>
+
     <div class="col mt-5">
       <div class="row">
         <div align="center" class="col">
