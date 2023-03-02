@@ -46,15 +46,15 @@
           <div id="chessboard" class=" mb-2 mt-5" style="width: 700px;"></div>
 
           <!-- game controls -->
-          <div class="row" style="width: 427px;">
+          <!-- <div class="row" style="width: 427px;"> -->
             <!-- -buttons -->
-            <div class="col btn-group">
+            <!-- <div class="col btn-group">
               <button id="newgame" class="btn btn-outline-secondary">New</button>
               <button id="makemove" class="btn btn-outline-secondary">Move</button>
               <button id="takeback" class="btn btn-outline-secondary">Undo</button>
               <button id="flipboard" class="btn btn-outline-secondary">Flip</button>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -69,35 +69,26 @@
    ============================
   \****************************/
 
+  $(document).on('keydown', function(event) {
+    if(event.key == "m" || event.key == "M") {
+      // make move
+      makeMove();
+    } else if(event.key == "b" || event.key == "B") {
+      // take back move
+      engine.takeBack();
 
-  // handle new game button click
-  $('#newgame').on('click', function() {
-    // reset engine
-    engine.setBoard(engine.START_FEN);
+      // update board position
+      board.position(engine.generateFen());
+    } else if(event.key == "f" || event.key == "F") {
+      // flip board
+      board.flip();
+    } else if(event.key == "n" || event.key == "N") {
+      // set board
+      engine.setBoard(engine.START_FEN);
 
-    // set initial board position
-    board.position('start');
-  });
-
-  // handle make move button click
-  $('#makemove').on('click', function() {
-    // make computer move
-    makeMove();
-  });
-
-  // handle take back button click
-  $('#takeback').on('click', function() {
-    // take move back
-    engine.takeBack();
-
-    // update board position
-    board.position(engine.generateFen());
-  });
-
-  // handle flip board button click
-  $('#flipboard').on('click', function() {
-    // flip board
-    board.flip();
+      // set initial board position
+      board.position('start');
+    }
   });
 
   // handle select move time option
