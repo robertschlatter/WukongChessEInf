@@ -7,19 +7,25 @@
   <link rel="stylesheet" href="{% static 'StartScreen/css/startScreenLobby.css'%}">
 </head>
 <body>
-  <!-- Add navbar at the top -->
-<nav>
-  <div class="navbar-left">
-    <a href="/">Home</a>
-    <a href="/playWukong/1">Play Wukong</a>
-    <a href="/playPlayer/1">Play Player</a>
-    <a href="#">About</a>
-  </div>
-  <div class="navbar-right">
-    <a href="#">Login</a>
-  </div>
-</nav>
 
+  <!-- Add navbar at the top -->
+  <nav>
+    <div class="navbar-left">
+      <a href="/">Home</a>
+      <a href="/playWukong/1">Play Wukong</a>
+      <a href="/playPlayer/1">Play Player</a>
+      <a href="#">About</a>
+    </div>
+    <div class="navbar-right">
+      <div class="dropdown">
+        <button class="dropbtn">Account</button>
+        <div class="dropdown-content">
+          <a href="#">Login</a>
+          <a href="#">Sign up</a>
+        </div>
+      </div>
+    </div>
+  </nav>
 
   <script src="script.js"></script>
 </body>
