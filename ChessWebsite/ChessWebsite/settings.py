@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     #register own apps
     'PlayWukong.apps.PlaywukongConfig',
     'PlayPlayer.apps.PlayplayerConfig',
-    'StartScreen.apps.StartscreenConfig'
+    'StartScreen.apps.StartscreenConfig',
+    'UserAdministration.apps.UseradministrationConfig'
+
 ]
 
 MIDDLEWARE = [

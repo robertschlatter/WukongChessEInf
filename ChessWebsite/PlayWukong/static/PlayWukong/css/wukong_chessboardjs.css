@@ -1,7 +1,7 @@
 body {
   /* background-image: url('/static/PlayPlayer/img/playPlayerBackground2.png'); */
   /* background-size: cover; */
-  background: linear-gradient(to bottom, rgb(235, 221, 184), rgb(212, 180, 125));
+  background-color: rgb(235, 221, 184);
 }
 
 .col {

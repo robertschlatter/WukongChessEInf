@@ -24,24 +24,34 @@
   </head>
   <body>
 
+
      <!-- Add navbar at the top -->
-    <nav>
-      <div class="navbar-left">
-        <a href="/">Home</a>
-        <a href="/playWukong/1">Play Wukong</a>
-        <a href="/playPlayer/1">Play Player</a>
-        <a href="#">About</a>
-      </div>
-      <div class="navbar-right">
-        <div class="dropdown">
-          <button class="dropbtn">Account</button>
-          <div class="dropdown-content">
-            <a href="#">Login</a>
-            <a href="#">Sign up</a>
-          </div>
+      <nav>
+        <div class="navbar-left">
+          <a href="{% url 'startScreenLobbyView' %}">Home</a>
+          <a href="{% url 'playWukongView' 1 %}">Play Wukong</a>
+          <a href="{% url 'playPlayerView' 1 %}">Play Player</a>
+          <a href="#">About</a>
         </div>
-      </div>
-    </nav>
+        <div class="navbar-right">
+          {% if user.is_authenticated %}
+            <div class="dropdown">
+              <button class="dropbtn">{{ user.username }}</button>
+              <div class="dropdown-content">
+                <a href="{% url 'UserAdministrationLogoutView' %}">Logout</a>
+              </div>
+            </div>
+          {% else %}
+            <div class="dropdown">
+              <button class="dropbtn">Account</button>
+              <div class="dropdown-content">
+                <a href="{% url 'UserAdministrationLoginView' %}">Login</a>
+                <a href="{% url 'UserAdministrationSignUpView' %}">Sign up</a>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </nav>
 
     <div class="col mt-5">
       <div class="row">

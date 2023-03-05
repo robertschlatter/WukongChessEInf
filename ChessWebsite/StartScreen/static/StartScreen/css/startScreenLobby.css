@@ -11,7 +11,8 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
-  margin-top: 40px;
+  width: 99%; /* Set the width of the navbar to 90% of the screen */
+  margin: 40px auto 0 auto; /* Center the navbar in the window */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 

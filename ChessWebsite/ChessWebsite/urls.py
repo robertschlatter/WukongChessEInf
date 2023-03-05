@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('playWukong/',include('PlayWukong.urls')),
     path('playPlayer/',include('PlayPlayer.urls')),
-    path('',include('StartScreen.urls'))
+    path('',include('StartScreen.urls')),
+    path('user/',include('UserAdministration.urls'))
 ]

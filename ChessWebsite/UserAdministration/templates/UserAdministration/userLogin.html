@@ -1,0 +1,89 @@
+<html>
+{% load static %}
+  <head>
+    <title>WukongJS + Chessboardjs</title>
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <!-- own stylesheet -->
+    <link rel="stylesheet" href="{% static 'UserAdministration/css/userLogin.css' %}">
+
+  </head>
+  <body>
+    <!-- Add navbar at the top -->
+    <nav>
+      <div class="navbar-left">
+        <a href="{% url 'startScreenLobbyView' %}">Home</a>
+        <a href="{% url 'playWukongView' 1 %}">Play Wukong</a>
+        <a href="{% url 'playPlayerView' 1 %}">Play Player</a>
+        <a href="#">About</a>
+      </div>
+      <div class="navbar-right">
+        {% if user.is_authenticated %}
+          <div class="dropdown">
+            <button class="dropbtn">{{ user.username }}</button>
+            <div class="dropdown-content">
+              <a href="{% url 'UserAdministrationLogoutView' %}">Logout</a>
+            </div>
+          </div>
+        {% else %}
+          <div class="dropdown">
+            <button class="dropbtn">Account</button>
+            <div class="dropdown-content">
+              <a href="{% url 'UserAdministrationLoginView' %}">Login</a>
+              <a href="{% url 'UserAdministrationSignUpView' %}">Sign up</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </nav>
+
+
+      <!-- Login Form -->
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card mt-5">
+            <div class="card-header text-center">
+              <h4>Login to Your Account</h4>
+            </div>
+            <div class="card-body">
+              <form method="POST" action="">
+                {% csrf_token %}
+                {% if loginForm.errors %}
+                  <div class="alert alert-danger" role="alert">
+                    <strong>Oops! Something went wrong:</strong>
+                    {% for field, error_list in loginForm.errors.items %}
+                      <br>{{ field }}:
+                      {% for error in error_list %}
+                        {{ error }}
+                      {% endfor %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                <div class="form-group">
+                  {{ loginForm.username.label_tag }}
+                  {{ loginForm.username }}
+                </div>
+                <div class="form-group">
+                  {{ loginForm.password.label_tag }}
+                  {{ loginForm.password }}
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
