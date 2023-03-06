@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 def userLoginView(requests):
     loginForm = AuthenticationForm()
+
     if requests.method == 'POST':
         loginForm = AuthenticationForm(requests, requests.POST)
         if loginForm.is_valid():
