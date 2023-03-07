@@ -2138,6 +2138,9 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
       let legalMovesLength = generateLegalMoves().length;
       let sideIsCheck = this.inCheck(engine.getSide());
 
+      console.log('hi')
+      console.log(isRepetition());
+
       if (legalMovesLength < 1 && sideIsCheck) {return 1;} //checkmate
       else if (legalMovesLength < 1 && !sideIsCheck) {return 2;} //stalemate
       return false; //game is not over

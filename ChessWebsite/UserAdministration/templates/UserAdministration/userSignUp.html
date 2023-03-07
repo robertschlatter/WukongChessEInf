@@ -16,33 +16,37 @@
 
   </head>
   <body>
-    <!-- Add navbar at the top -->
-    <nav>
-      <div class="navbar-left">
-        <a href="{% url 'startScreenLobbyView' %}">Home</a>
-        <a href="{% url 'playWukongView' 1 %}">Play Wukong</a>
-        <a href="{% url 'playPlayerView' 1 %}">Play Player</a>
-        <a href="#">About</a>
-      </div>
-      <div class="navbar-right">
-        {% if user.is_authenticated %}
-          <div class="dropdown">
-            <button class="dropbtn">{{ user.username }}</button>
-            <div class="dropdown-content">
-              <a href="{% url 'UserAdministrationLogoutView' %}">Logout</a>
+     <!-- Add navbar at the top -->
+      <nav>
+        <div class="navbar-left">
+          <a href="{% url 'startScreenLobbyView' %}">Home</a>
+          <!-- the following links lead to the sites where you can play against other players or the Wukong bot
+           Note that the Lobby ID is always 1, this is for testing purposes and will later be dynamically generated-->
+          <a href="{% url 'playWukongView' 1 %}">Play Wukong</a>
+          <a href="{% url 'playPlayerView' 1 %}">Play Player</a>
+          <a href="#">About</a>
+        </div>
+        <div class="navbar-right">
+          <!-- if the user is logged in, the dropdown menu displays the logout link-->
+          {% if user.is_authenticated %}
+            <div class="dropdown"> <!-- dropdown menu -->
+              <button class="dropbtn">{{ user.username }}</button>
+              <div class="dropdown-content">
+                <a href="{% url 'UserAdministrationLogoutView' %}">Logout</a>
+              </div>
             </div>
-          </div>
-        {% else %}
-          <div class="dropdown">
-            <button class="dropbtn">Account</button>
-            <div class="dropdown-content">
-              <a href="{% url 'UserAdministrationLoginView' %}">Login</a>
-              <a href="{% url 'UserAdministrationSignUpView' %}">Sign up</a>
+          {% else %}
+          <!-- If the user is not logged in the Dropdown menu displays the links to the register or login page -->
+            <div class="dropdown"> <!-- dropdown menu -->
+              <button class="dropbtn">Account</button>
+              <div class="dropdown-content">
+                <a href="{% url 'UserAdministrationLoginView' %}">Login</a>
+                <a href="{% url 'UserAdministrationSignUpView' %}">Sign up</a>
+              </div>
             </div>
-          </div>
-        {% endif %}
-      </div>
-    </nav>
+          {% endif %}
+        </div>
+      </nav>
 
  <!-- Register Form -->
     <div class="container">
