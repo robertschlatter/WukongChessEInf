@@ -1,3 +1,18 @@
+<!--
+The HTML code represents a login page with a navigation bar at the top.
+ It loads necessary static files and links to external resources to style the page and add interactive features such as a dropdown menu.
+ The login form is contained in a bootstrap card and centered using the bootstrap grid system.
+ The page displays form errors if there are any and allows users to enter their login credentials and submit the form to authenticate their account.
+ It is important for a chess Django website to have a login page as it allows registered users to access their profile, saved games, and participate in multiplayer chess games.
+ The login page also helps to secure the website and prevent unauthorized access.
+-->
+
+<!--
+Wukong Chess
+Robert Schlatter, Matthew Hornstein, Leonardo Toker in Zusammenarbeit
+Datum: 7.3.2023
+-->
+
 <html>
 {% load static %}
   <head>
@@ -16,24 +31,28 @@
 
   </head>
   <body>
-    <!-- Add navbar at the top -->
+   <!-- Add navbar at the top -->
     <nav>
       <div class="navbar-left">
         <a href="{% url 'startScreenLobbyView' %}">Home</a>
+        <!-- the following links lead to the sites where you can play against other players or the Wukong bot
+         Note that the Lobby ID is always 1, this is for testing purposes and will later be dynamically generated-->
         <a href="{% url 'playWukongView' 1 %}">Play Wukong</a>
         <a href="{% url 'playPlayerView' 1 %}">Play Player</a>
         <a href="#">About</a>
       </div>
       <div class="navbar-right">
+        <!-- if the user is logged in, the dropdown menu displays the logout link-->
         {% if user.is_authenticated %}
-          <div class="dropdown">
+          <div class="dropdown"> <!-- dropdown menu -->
             <button class="dropbtn">{{ user.username }}</button>
             <div class="dropdown-content">
               <a href="{% url 'UserAdministrationLogoutView' %}">Logout</a>
             </div>
           </div>
         {% else %}
-          <div class="dropdown">
+        <!-- If the user is not logged in the Dropdown menu displays the links to the register or login page -->
+          <div class="dropdown"> <!-- dropdown menu -->
             <button class="dropbtn">Account</button>
             <div class="dropdown-content">
               <a href="{% url 'UserAdministrationLoginView' %}">Login</a>
@@ -45,17 +64,23 @@
     </nav>
 
 
-      <!-- Login Form -->
+    <!-- This is a Login Form -->
+    <!-- A container is used to contain the login form -->
     <div class="container">
+      <!-- A row is created and content is centered in the row -->
       <div class="row justify-content-center">
         <div class="col-md-6">
+          <!-- A card is created to display the login form with some margin on top -->
           <div class="card mt-5">
+            <!-- A header is added to the card with a centered h4 heading -->
             <div class="card-header text-center">
               <h4>Login to Your Account</h4>
             </div>
+            <!-- The body of the card contains a form to submit the login credentials -->
             <div class="card-body">
               <form method="POST" action="">
                 {% csrf_token %}
+                <!-- Check for login form errors and display them in an alert in the form -->
                 {% if loginForm.errors %}
                   <div class="alert alert-danger" role="alert">
                     <strong>Oops! Something went wrong:</strong>
@@ -67,14 +92,17 @@
                     {% endfor %}
                   </div>
                 {% endif %}
+                <!-- A form-group for the username input -->
                 <div class="form-group">
                   {{ loginForm.username.label_tag }}
                   {{ loginForm.username }}
                 </div>
+                <!-- A form-group for the password input -->
                 <div class="form-group">
                   {{ loginForm.password.label_tag }}
                   {{ loginForm.password }}
                 </div>
+                <!-- A form-group for the login button -->
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary btn-block">Login</button>
                 </div>

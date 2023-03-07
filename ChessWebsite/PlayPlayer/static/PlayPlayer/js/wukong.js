@@ -1,3 +1,14 @@
+/*
+Wukong Chess
+Robert Schlatter, Matthew Hornstein, Leonardo Toker in Zusammenarbeit
+Datum: 7.3.2023
+Hauptquelle:  https://github.com/maksimKorzh/wukongJS.git
+
+That's the code for the Wukong chess engine. This code has been copied exactly like it is from
+GitHub (https://github.com/maksimKorzh/wukongJS.git) with one exception: The isGameOver function at the end
+of the code has been added manually using the already provided functions of the wukong engine. This function
+is still in work. The code of the engine hasn't got any manually added comments yet due to its complexity.
+ */
 /************************************************\
  ================================================
 
@@ -2134,12 +2145,9 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
     inCheck: function(color) { return isSquareAttacked(kingSquare[color], color ^ 1); },
     isSquareAttacked: function(square, color) { return isSquareAttacked(square, color); },
 
-    isGameOver: function (){
-      let legalMovesLength = generateLegalMoves().length;
-      let sideIsCheck = this.inCheck(engine.getSide());
-
-      console.log('hi')
-      console.log(isRepetition());
+    isGameOver: function (){ //checks if the game has finished
+      let legalMovesLength = generateLegalMoves().length; //count how many legal moves the moving side has
+      let sideIsCheck = this.inCheck(engine.getSide()); //return if the side to move is in check
 
       if (legalMovesLength < 1 && sideIsCheck) {return 1;} //checkmate
       else if (legalMovesLength < 1 && !sideIsCheck) {return 2;} //stalemate

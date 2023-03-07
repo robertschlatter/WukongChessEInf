@@ -1,3 +1,19 @@
+<!--
+This HTML code defines the basic structure of a webpage and includes several libraries and stylesheets to create a navbar
+that provides links for navigating the site. It also checks if the user is authenticated and displays the appropriate links in a dropdown menu.
+The load static template tag is used to load a static file startScreenLobby.css that contains custom styling for the page.
+ This code is important for a chess Django website because it creates a simple and intuitive way for users to navigate through the site and access various features
+ such as playing against other players or bots.
+ It also includes functionality for user authentication, allowing users to create accounts and log in to access their personal information and game history.
+-->
+
+
+<!--
+Wukong Chess
+Robert Schlatter, Matthew Hornstein, Leonardo Toker in Zusammenarbeit
+Datum: 7.3.2023
+-->
+
 <html>
 {% load static %}
   <head>
@@ -16,24 +32,28 @@
 
   </head>
   <body>
-    <!-- Add navbar at the top -->
+   <!-- Add navbar at the top -->
     <nav>
       <div class="navbar-left">
         <a href="{% url 'startScreenLobbyView' %}">Home</a>
+        <!-- the following links lead to the sites where you can play against other players or the Wukong bot
+         Note that the Lobby ID is always 1, this is for testing purposes and will later be dynamically generated-->
         <a href="{% url 'playWukongView' 1 %}">Play Wukong</a>
         <a href="{% url 'playPlayerView' 1 %}">Play Player</a>
         <a href="#">About</a>
       </div>
       <div class="navbar-right">
+        <!-- if the user is logged in, the dropdown menu displays the logout link-->
         {% if user.is_authenticated %}
-          <div class="dropdown">
+          <div class="dropdown"> <!-- dropdown menu -->
             <button class="dropbtn">{{ user.username }}</button>
             <div class="dropdown-content">
               <a href="{% url 'UserAdministrationLogoutView' %}">Logout</a>
             </div>
           </div>
         {% else %}
-          <div class="dropdown">
+        <!-- If the user is not logged in the Dropdown menu displays the links to the register or login page -->
+          <div class="dropdown"> <!-- dropdown menu -->
             <button class="dropbtn">Account</button>
             <div class="dropdown-content">
               <a href="{% url 'UserAdministrationLoginView' %}">Login</a>

@@ -5,6 +5,15 @@ Datum: 7.3.2023
 Hauptquelle:  https://github.com/maksimKorzh/wukongJS.git
 -->
 
+<!--
+This is the main file of the application. Firstly, all the used resources are loaded into this html file between the <head> tag.
+Next is the custom navbar for this website with its dropdown menu. After the html code is finished we enter into the JavaScript section.
+There all the loaded resources (Wukong engine, ChessboardJS board) are set up for a new game. Event listeners are added, which listen for
+specific key presses or mouse clicks to trigger certain functions within this file or the chessboard-1.0.0.min.js file or the wukong.js file.
+Now let the game begin! So this file really brings all the different parts and files of the website together and uses Bootstrap and JQuery to do this even better and
+to provide a smooth design to all of it. This is just a broad oversight of what this file does, for more in depth explanation go on and read the
+comments explaining the functionality of certain elements.
+-->
 
 
 <html>
@@ -118,7 +127,7 @@ Hauptquelle:  https://github.com/maksimKorzh/wukongJS.git
       // set board
       engine.setBoard(engine.START_FEN);
 
-      // set initial board position
+      // set initial board position --> board is an instance from the chessboard.1.0.0.min.js file
       board.position('start');
     }
   });

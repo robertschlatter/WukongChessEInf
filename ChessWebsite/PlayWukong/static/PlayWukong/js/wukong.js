@@ -1,3 +1,14 @@
+/*
+Wukong Chess
+Robert Schlatter, Matthew Hornstein, Leonardo Toker in Zusammenarbeit
+Datum: 7.3.2023
+Hauptquelle:  https://github.com/maksimKorzh/wukongJS.git
+
+That's the code for the Wukong chess engine. This code has been copied exactly like it is from
+GitHub (https://github.com/maksimKorzh/wukongJS.git) with one exception:The isGameOver function at the end
+of the code has been added manually using the already provided functions of the wukong engine. This function
+is still in work. The code of the engine hasn't got any manually added comments yet due to its complexity.
+ */
 /************************************************\
  ================================================
 

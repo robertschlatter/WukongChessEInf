@@ -1,3 +1,17 @@
+<!--
+ This HTML code defines the layout of a registration form for creating an account on a chess website built with Django.
+The code includes Bootstrap and JQuery libraries for responsive design and form handling, and it also contains Django template tags for dynamic generation of URLs and CSRF tokens.
+The code defines a navbar with links to various pages on the website and a dropdown menu for user authentication.
+ The registration form includes fields for username, password, and password confirmation, along with validation errors handling.
+ Overall, this HTML code is essential for the registration process on a chess website built with Django as it provides a user-friendly and secure way for new users to create an account and access the website's features.
+-->
+
+<!--
+Wukong Chess
+Robert Schlatter, Matthew Hornstein, Leonardo Toker in Zusammenarbeit
+Datum: 7.3.2023
+-->
+
 <html>
 {% load static %}
   <head>
@@ -48,20 +62,31 @@
         </div>
       </nav>
 
- <!-- Register Form -->
+    <!-- Register Form -->
+    <!-- A container for the form -->
     <div class="container">
+      <!-- A row that is horizontally centered -->
       <div class="row justify-content-center">
         <div class="col-md-6">
           <div class="card mt-5">
+            <!-- A header section for the card -->
             <div class="card-header text-center">
+              <!-- A heading for the form -->
               <h4>Create an Account</h4>
             </div>
+            <!-- A body section for the card -->
             <div class="card-body">
+              <!-- A form with method POST and an empty action attribute -->
               <form method="POST" action="">
+                <!-- A CSRF token for security reasons -->
                 {% csrf_token %}
+                <!-- A section for displaying form validation errors -->
                 {% if registerForm.errors %}
+                  <!-- An alert to display the errors -->
                   <div class="alert alert-danger" role="alert">
+                    <!-- A strong element to indicate something went wrong -->
                     <strong>Oops! Something went wrong:</strong>
+                    <!-- A for loop to iterate over the form errors and display them -->
                     {% for field, error_list in registerForm.errors.items %}
                       <br>{{ field }}:
                       {% for error in error_list %}
@@ -70,19 +95,30 @@
                     {% endfor %}
                   </div>
                 {% endif %}
+                <!-- A form group for the username field -->
                 <div class="form-group">
+                  <!-- A label for the username field -->
                   {{ registerForm.username.label_tag }}
+                  <!-- An input field for the username -->
                   {{ registerForm.username }}
                 </div>
+                <!-- A form group for the first password field -->
                 <div class="form-group">
+                  <!-- A label for the first password field -->
                   {{ registerForm.password1.label_tag }}
+                  <!-- An input field for the first password -->
                   {{ registerForm.password1 }}
                 </div>
+                <!-- A form group for the second password field -->
                 <div class="form-group">
+                  <!-- A label for the second password field -->
                   {{ registerForm.password2.label_tag }}
+                  <!-- An input field for the second password -->
                   {{ registerForm.password2 }}
                 </div>
+                <!-- A form group for the submit button -->
                 <div class="form-group">
+                  <!-- A button to submit the form -->
                   <button type="submit" class="btn btn-primary btn-block">Create Account</button>
                 </div>
               </form>

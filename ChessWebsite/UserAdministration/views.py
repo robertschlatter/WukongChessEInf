@@ -1,3 +1,8 @@
+#The views.py file in a Django project contains the view functions that handle HTTP requests and return HTTP responses.
+# This file is an essential part of any Django project as it defines how data is presented to users and how users interact with the system.
+# In this specific views.py file, there are three views defined: userLoginView, userSignUpView, and userLogoutView.
+# The userLoginView handles user authentication, userSignUpView handles user registration, and userLogoutView handles user log out.
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
