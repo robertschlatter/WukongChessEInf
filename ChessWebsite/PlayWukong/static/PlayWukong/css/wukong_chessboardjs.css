@@ -1,8 +1,8 @@
 body {
-  /* background-image: url('/static/PlayPlayer/img/playPlayerBackground2.png'); */
-  /* background-size: cover; */
-  background-color: rgb(235, 221, 184);
+  background-image: url('/static/PlayWukong/img/playWukongBackground.png');
+  background-size: 110%;
 }
+
 
 .col {
   margin-top: -30px; /* adjust this value to move the column up */
