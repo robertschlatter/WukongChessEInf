@@ -46,8 +46,8 @@ def userSignUpView(request):
         if registerForm.is_valid():
             # If the form data is valid, save the new user
             registerForm.save()
-        # Redirect the user to the login page
-        return redirect('UserAdministrationLoginView')
+            # Redirect the user to the login page
+            return redirect('UserAdministrationLoginView')
 
     # Render the userSignUp.html template with the registerForm instance
     context = {'registerForm' : registerForm}

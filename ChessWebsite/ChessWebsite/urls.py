@@ -13,13 +13,32 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+#Import necessary modules
+
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
+
+#Define URL patterns
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('playWukong/',include('PlayWukong.urls')),
-    path('playPlayer/',include('PlayPlayer.urls')),
-    path('',include('StartScreen.urls')),
-    path('user/',include('UserAdministration.urls'))
+# Admin page URL pattern
+path('admin/', admin.site.urls),
+
+# URL pattern for PlayWukong app
+path('playWukong/', include('PlayWukong.urls')),
+
+# URL pattern for PlayPlayer app
+path('playPlayer/', include('PlayPlayer.urls')),
+
+# URL pattern for StartScreen app
+path('', include('StartScreen.urls')),
+
+# URL pattern for UserAdministration app
+path('user/', include('UserAdministration.urls'))
 ]
+
+#Note: urlpatterns is a list of URL patterns used by Django.
+
+#Each URL pattern maps a URL to a view that handles the request.
+
+#The include() function is used to reference other URL pattern files within the project.
