@@ -12,7 +12,7 @@ There all the loaded resources (Wukong engine, ChessboardJS board) are set up fo
 specific key presses or mouse clicks to trigger certain functions within this file or the chessboard-1.0.0.min.js file or the wukong.js file.
 Now let the game begin! So this file really brings all the different parts and files of the website together and uses Bootstrap and JQuery to do this even better and
 to provide a smooth design to all of it. This is just a broad oversight of what this file does, for more in depth explanation go on and read the
-comments explaining the functionality of certain elements.
+comments explaining the functionality of certain elements in the code below.
 -->
 
 
@@ -197,6 +197,7 @@ comments explaining the functionality of certain elements.
 
   // on dropping piece
   function onDrop (source, target) { //if a piece is dropped (move is made, this function is triggered by event handlers in chessboard-1.0.0.min.js)
+    //handle piece promotion if necessary
     let promotedPiece = (engine.getSide() ? (5 + 6): 5) // queen promotion only for now
     let move = source + target + engine.promotedToString(promotedPiece);
     let validMove = engine.moveFromString(move);
@@ -204,7 +205,8 @@ comments explaining the functionality of certain elements.
     //console.log('user move', promotedPiece);
 
     // invalid move
-    if (validMove === 0) return 'snapback';
+    if (validMove === 0) return 'snapback'; //this triggers a function in the chessboard-1.0.0.min.js file which then takes the move back
+
 
     //generate all legal moves in the position right now
     let legalMoves = engine.generateLegalMoves();
@@ -225,6 +227,13 @@ comments explaining the functionality of certain elements.
     //engine.printBoard();
 
     // TODO: update game status
+    /*
+    This following section is still in progress. The isGameOver() function is newly implemented by us
+    in the wukong.js file and can already detect checkmates and stalemates. In the near future it will be able
+    to detect material draw, 50 move rule, repetitions and more. The isGameOver() function will later trigger the
+    gameOverAnimation(), which then will display a suited screen or image. The isGameOver() function returns one
+    value at the moment. 1 is checkmate. 2 is stalemate. The values are displayed in the console.
+    */
     let gameOver = engine.isGameOver();
 
     if (!gameOver) {
@@ -232,13 +241,13 @@ comments explaining the functionality of certain elements.
       makeMove(); //--> add makeMove() to play against engine, remove it to play against other players
     }
     else {
-      gameOverAnimation(gameOver); //not implemented yet, just empty function
+      gameOverAnimation(gameOver); //not implemented yet, just an empty function
     }
   }
 
   // update the board position after the piece snap
   // for castling, en passant, pawn promotion
-  function onSnapEnd () {
+  function onSnapEnd () { //updates board representation if en passant, pawn promotion or castling has happened
     board.position(engine.generateFen());
   }
 
@@ -251,11 +260,11 @@ comments explaining the functionality of certain elements.
   \****************************/
   // chess board configuration
   var config = {
-    draggable: true,
+    draggable: true, //pieces can be dragged
     position: 'start',
     //onDragStart: onDragStart,
-    onDrop: onDrop,
-    onSnapEnd: onSnapEnd
+    onDrop: onDrop, //trigger onDrop function in this file if onDrop event listener (chessboard-1.0.0.min.js) is triggered
+    onSnapEnd: onSnapEnd //trigger onSnapEnd function in this file if onSnapEnd event listener (chessboard-1.0.0.min.js) is triggered
   }
 
   // create chess board widget instance (from chessboard-1.0.0.min.css)
@@ -271,15 +280,18 @@ comments explaining the functionality of certain elements.
  ============================
  \****************************/
 
- //audio for piece movement
+  //audio for piece movement
+ // http://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/move-self.mp3
+ // http://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/capture.mp3)
+
  const moveMP3 = new Audio('/static/PlayWukong/mp3/move.mp3');
  const captureMP3 = new Audio('/static/PlayWukong/mp3/capture.mp3');
 
  //play capture or move sound
  function playGameSound(move){
-   //check if the made move is a capture (with a function from wukong.js)
-   if (engine.getMoveCapture(move)) {captureMP3.play();}
-   else {moveMP3.play();}
+   //check if the made move is a capture (with the getMoveCapture() function from wukong.js)
+   if (engine.getMoveCapture(move)) {captureMP3.play();} //if capture
+   else {moveMP3.play();} //if normal move
  }
 
  function gameOverAnimation(type) {
