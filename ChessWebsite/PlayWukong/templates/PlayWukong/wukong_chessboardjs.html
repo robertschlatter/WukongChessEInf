@@ -131,12 +131,12 @@ comments explaining the functionality of certain elements in the code below.
     }
   });
 
-  <!--
+  /*
   The following section until the user control functions section is copied 1:1 from the main source listed at the top.
   JQuery is used here to change the search depth of the engine or load a FEN imported by the user. These functionalities are
   implemented in this JavaScript file but cannot be used on the website. The FEN loader might come in handy when trying to
   load a saved game (in FEN format) from a database.
-  -->
+  */
 
   // handle select move time option
   $('#move_time').on('change', function() {
@@ -295,7 +295,7 @@ comments explaining the functionality of certain elements in the code below.
  }
 
  function gameOverAnimation(type) {
-   //type : 1 --> checkmate, 2 --> stalemate
+   //type : 1 --> checkmate, 2 --> stalemat
    //side : 0 --> white, 1 --> black
    console.log(type,engine.getSide()) //for debugging
  }
