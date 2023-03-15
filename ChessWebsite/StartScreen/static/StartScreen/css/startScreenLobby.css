@@ -2,6 +2,7 @@
 body {
   background-image: url('/static/StartScreen/img/startScreenBackground.png');
   background-size: cover;
+  background-position: center 10px;
 }
 
 /* Style the navigation bar */
