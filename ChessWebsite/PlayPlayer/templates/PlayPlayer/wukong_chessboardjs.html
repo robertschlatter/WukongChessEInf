@@ -42,6 +42,47 @@ comments explaining the functionality of certain elements in the code below.
   </head>
   <body>
 
+  <!-- Add a textarea element to input the text to be written to the file -->
+  <textarea id="fen-textarea"></textarea>
+
+
+  {% block fileManagement %}
+    <div id="file-management">
+      <div id="uploadForm">
+        <h2>Upload a file</h2>
+        <form id="uploadformForm" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button id="upload" type="submit">Upload</button>
+        </form>
+      </div>
+
+      <div id="viewFiles">
+        <h2>Uploaded files</h2>
+        <ul>
+          {% for file in files %}
+            <li><a href="{{ file.file.url }}">{{ file.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div id="deleteFiles">
+        <h2>Delete files</h2>
+        <ul>
+          {% for file in files %}
+            <li>
+              <a href="{{ file.file.url }}">{{ file.title }}</a>
+              <form action="{% url 'deleteFileView' file.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endblock %}
+
   <!-- chat -->
   <div class="chat-container">
     <textarea id="chat-log" cols="100" rows="20"></textarea>
@@ -61,7 +102,7 @@ comments explaining the functionality of certain elements in the code below.
            Note that the Lobby ID is always 1, this is for testing purposes and will later on be dynamically generated-->
           <a href="{% url 'playWukongView' 1 %}">Play Wukong</a>
           <a href="{% url 'playPlayerView' 1 %}">Play Player</a>
-          <a href="#">About</a>
+          <a href="{% url 'databaseReviewView' %}">Database</a>
         </div>
         <div class="navbar-right">
           <!-- if the user is logged in, the dropdown menu displays the logout link-->
@@ -207,7 +248,7 @@ comments explaining the functionality of certain elements in the code below.
 
   // on dropping piece
   function onDrop (source, target) { //if a piece is dropped (move is made, this function is triggered by event handlers in chessboard-1.0.0.min.js)
-    let promotedPiece = (engine.getSide() ? (5 + 6): 5) // queen promotion only for now
+    let promotedPiece = (engine.getSide() ? (5 + 6) : 5) // queen promotion only for now
     let move = source + target + engine.promotedToString(promotedPiece);
     let validMove = engine.moveFromString(move);
 
@@ -229,7 +270,12 @@ comments explaining the functionality of certain elements in the code below.
     if (isLegal === 0) return 'snapback'; //this triggers a function in the chessboard-1.0.0.min.js file which then takes the move back
 
     // make user move
-    engine.makeMove(validMove);
+    //engine.makeMove(validMove);
+    sendMove(validMove);
+
+  }
+
+  function onDropSecondPart(validMove) {
     //play move sound
     playGameSound(validMove);
     //engine.printBoard();
@@ -281,6 +327,8 @@ comments explaining the functionality of certain elements in the code below.
   // create WukongJS engine instance (from wukong.js)
   const engine = new Engine();
 
+  var fenTextarea = document.getElementById('fen-textarea');
+
  /****************************\
  ============================
 
@@ -300,7 +348,15 @@ comments explaining the functionality of certain elements in the code below.
 
   chatSocket.onmessage = function(e) {
       const data = JSON.parse(e.data);
-      document.querySelector('#chat-log').value += (data.message + '\n');
+      const kind = data.kind
+
+      if (kind === "move") {
+        engine.makeMove(data.message);
+        onSnapEnd();
+        onDropSecondPart(data.message);
+        fenTextarea.value += engine.generateFen() + "\n"; //add FEN string to invisible textarea
+      }
+      else {document.querySelector('#chat-log').value += (data.message + '\n');}
   };
 
   chatSocket.onclose = function(e) {
@@ -318,10 +374,18 @@ comments explaining the functionality of certain elements in the code below.
       const messageInputDom = document.querySelector('#chat-message-input');
       const message = messageInputDom.value;
       chatSocket.send(JSON.stringify({
-          'message': message
+          'message': message,
+          'kind' : 'message'
       }));
       messageInputDom.value = '';
   };
+
+  function sendMove(validMove) {
+    chatSocket.send(JSON.stringify({
+      'message': validMove,
+      'kind': 'move'
+    }));
+  }
 
  //audio for piece movement
  // http://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/move-self.mp3
@@ -337,9 +401,108 @@ comments explaining the functionality of certain elements in the code below.
    else {moveMP3.play();} //if normal move
  }
 
- function gameOverAnimation(type) {
-   //type : 1 --> checkmate, 2 --> stalemate
-   //side : 0 --> white, 1 --> black
-   console.log(type,engine.getSide()) //for debugging
- }
+function gameOverAnimation(type) {
+  //upload game file
+  automaticallyFillForm()
+  // create a new transparent div element
+  const gameOverDiv = document.createElement("div");
+
+  // set the id attribute to "gameOverDiv"
+  gameOverDiv.id = "gameOverDiv";
+
+  //type : 1 --> checkmate, 2 --> stalemate, 3 --> material draw
+  //side : 0 --> white, 1 --> black
+
+  // add h1 element to the div
+  const h1 = document.createElement("h1");
+  if (type === 1) {
+    h1.innerHTML = "Checkmate";
+  } else if (type === 2) {
+    h1.innerHTML = "Stalemate";
+  } else if (type === 3) {
+    h1.innerHTML = "Material Draw";
+  }
+  gameOverDiv.appendChild(h1);
+
+  // add h2 element to the div
+  const h2 = document.createElement("h2");
+  if (type === 1) {
+    const side = engine.getSide();
+    if (side === 0) {
+      h2.innerHTML = "Black won";
+    } else {
+      h2.innerHTML = "White won";
+    }
+  }
+  gameOverDiv.appendChild(h2);
+
+  // Get the chessboard div and add the new div to it
+  const chessboard = document.getElementById("chessboard");
+  chessboard.appendChild(gameOverDiv);
+}
+
+function automaticallyFillForm() {
+
+  var text = document.getElementById("fen-textarea").value;
+
+  // generate a unique title for the file
+  const uniqueTitle = `empty_file_${Date.now()}.txt`;
+
+  // create a new File object with an empty Blob as its content
+  const emptyFile = new File([text], uniqueTitle, {
+    type: "text/plain",
+    lastModified: Date.now(),
+  });
+
+  // get the file input element
+  const fileInput = document.querySelector("#id_file");
+
+  // set the value of the file input element to the empty File object
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(emptyFile);
+  fileInput.files = dataTransfer.files
+
+  // set the value of the title input element to the unique title
+  const titleInput = document.querySelector("#id_title");
+  titleInput.value = uniqueTitle;
+
+  // get the form element
+  const form = document.querySelector("#uploadformForm");
+
+  // create a new XMLHttpRequest object
+  const xhr = new XMLHttpRequest();
+
+  // set the form data as the request body
+  const formData = new FormData(form);
+
+  // set up the onload function
+  xhr.onload = function() {
+    // check if the request was successful
+    if (xhr.status === 200) {
+      // update the page with the new file
+      // you can use this space to update the page as desired
+      console.log("File uploaded successfully");
+    } else {
+      // display an error message
+      console.log("File upload failed");
+    }
+  };
+
+  // set up the onerror function
+  xhr.onerror = function() {
+    // display an error message
+    console.log("File upload failed");
+  };
+
+  // open the request
+  xhr.open(form.method, form.action);
+
+  // send the request
+  xhr.send(formData);
+}
+
+
+
+
+
 </script>

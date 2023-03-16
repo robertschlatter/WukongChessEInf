@@ -1,0 +1,444 @@
+<!--
+Wukong Chess
+Robert Schlatter, Matthew Hornstein, Leonardo Toker in Zusammenarbeit
+Datum: 7.3.2023
+Hauptquelle:  https://github.com/maksimKorzh/wukongJS.git
+-->
+
+
+<!--
+This is the main file of the application. Firstly, all the used resources are loaded into this html file between the <head> tags.
+Next is the custom navbar for this website with its dropdown menu. After the html code is finished we enter into the JavaScript section.
+There all the loaded resources (Wukong engine, ChessboardJS board) are set up for a new game. Event listeners are added, which listen for
+specific key presses or mouse clicks to trigger certain functions within this file or the chessboard-1.0.0.min.js file or the wukong.js file.
+Now let the game begin! So this file really brings all the different parts and files of the website together and uses Bootstrap and JQuery to do this even better and
+to provide a smooth design to all of it. This is just a broad oversight of what this file does, for more in depth explanation read the
+comments explaining the functionality of certain elements in the code below.
+-->
+
+<html>
+{% load static %}  <!-- include static files like css and js in the html template -->
+  <head>
+    <title>WukongJS + Chessboardjs</title>
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!-- Adds some js functionality -->
+
+    <!-- Bootstrap for responsive web-design-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <!-- chessboardjs, files for the chessboard displayed on the website with its functionality-->
+    <link rel="stylesheet" href="{% static 'DatabaseReview/css/chessboard-1.0.0.min.css' %}">
+    <script src="{% static 'DatabaseReview/js/chessboard-1.0.0.min.js' %}"></script>
+
+    <!-- own stylesheet, used for background styling, navbar styling -->
+    <link rel="stylesheet" href="{% static 'DatabaseReview/css/wukong_chessboardjs.css' %}">
+
+    <!-- WukongJS chess engine, to play against and to validate moves-->
+    <script src="{% static 'DatabaseReview/js/wukong.js' %}"></script>
+
+  </head>
+  <body>
+
+  <!-- Add a textarea element to input the text to be written to the file -->
+  <textarea id="fen-textarea"></textarea>
+
+
+  {% block fileManagement %}
+    <div id="file-management">
+      <div id="uploadForm">
+        <h2>Upload a file</h2>
+        <form id="uploadformForm" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button id="upload" type="submit">Upload</button>
+        </form>
+      </div>
+
+      <div id="viewFiles">
+        <h2>Uploaded files</h2>
+        <ul>
+          {% for file in files %}
+            <li><a href="{{ file.file.url }}">{{ file.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div id="deleteFiles">
+        <h2>Delete files</h2>
+        <ul>
+          {% for file in files %}
+            <li>
+              <a href="{{ file.file.url }}">{{ file.title }}</a>
+              <form action="{% url 'deleteFileView' file.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endblock %}
+
+
+
+     <!-- Add navbar at the top -->
+      <nav>
+        <div class="navbar-left">
+          <a href="{% url 'startScreenLobbyView' %}">Home</a>
+          <!-- the following links lead to the sites where you can play against other players or the Wukong bot.
+           Note that the Lobby ID is always 1, this is for testing purposes and will later on be dynamically generated-->
+          <a href="{% url 'playWukongView' 1 %}">Play Wukong</a>
+          <a href="{% url 'playPlayerView' 1 %}">Play Player</a>
+          <a href="{% url 'databaseReviewView' %}">Database</a>
+        </div>
+        <div class="navbar-right">
+          <!-- if the user is logged in, the dropdown menu displays the logout link-->
+          {% if user.is_authenticated %}
+            <div class="dropdown"> <!-- dropdown menu -->
+              <button class="dropbtn">{{ user.username }}</button>
+              <div class="dropdown-content">
+                <a href="{% url 'UserAdministrationLogoutView' %}">Logout</a>
+              </div>
+            </div>
+          {% else %}
+          <!-- If the user is not logged in the dropdown menu displays the links to the register or login page -->
+            <div class="dropdown"> <!-- dropdown menu -->
+              <button class="dropbtn">Account</button>
+              <div class="dropdown-content">
+                <a href="{% url 'UserAdministrationLoginView' %}">Login</a>
+                <a href="{% url 'UserAdministrationSignUpView' %}">Sign up</a>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </nav>
+
+    <div class="col mt-5">
+      <div class="row">
+        <div align="center" class="col">
+
+          <!-- chess board view -->
+          <div id="chessboard" class=" mb-2 mt-5" style="width: 700px;"></div>
+           <!-- the game control buttons have been disabled and have been replaced with key presses (see lines 103-123) -->
+
+          <!-- game controls -->
+          <!-- <div class="row" style="width: 427px;"> -->
+            <!-- -buttons -->
+            <!-- <div class="col btn-group">
+              <button id="newgame" class="btn btn-outline-secondary">New</button>
+              <button id="makemove" class="btn btn-outline-secondary">Move</button>
+              <button id="takeback" class="btn btn-outline-secondary">Undo</button>
+              <button id="flipboard" class="btn btn-outline-secondary">Flip</button>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  /****************************\
+   ============================
+
+        USER INPUT HANDLERS
+   ============================
+  \****************************/
+
+  <!-- register key presses and carry out certain actions if needed -->
+  $(document).on('keydown', function(event) {
+    if(event.key == "m" || event.key == "M") {
+      // make move
+      makeMove();
+    } else if(event.key == "b" || event.key == "B") {
+      // take back move
+      engine.takeBack();
+
+      // update board position
+      board.position(engine.generateFen());
+    } else if(event.key == "f" || event.key == "F") {
+      // flip board
+      board.flip();
+    } else if(event.key == "n" || event.key == "N") {
+      // set board
+      engine.setBoard(engine.START_FEN);
+
+      // set initial board position --> board is an instance from the chessboard.1.0.0.min.js file
+      board.position('start');
+    }
+  });
+
+  /*
+  The following section until the user control functions section is copied 1:1 from the main source listed at the top.
+  JQuery is used here to change the search depth of the engine or load a FEN imported by the user. These functionalities are
+  implemented in this JavaScript file but cannot be used on the website. The FEN loader might come in handy when trying to
+  load a saved game (in FEN format) from a database.
+  */
+
+  // handle select move time option
+  $('#move_time').on('change', function() {
+    // disable fixed depth
+    $('#fixed_depth').val('0');
+  });
+
+  // handle select fixed depth option
+  $('#fixed_depth').on('change', function() {
+    // disable fixed depth
+    $('#move_time').val('0');
+  });
+
+  // handle set FEN button click
+  $('#set_fen').on('click', function() {
+    // set user FEN
+
+    // FEN parsed
+    if (game.load($('#fen').val()))
+      // set board position
+      board.position(game.fen());
+
+    // FEN is not parsed
+    else
+      alert('Illegal FEN!');
+  });
+
+  // prevent scrolling on touch devices
+  $('#chessboard').on('scroll touchmove touchend touchstart contextmenu', function(e) {
+    e.preventDefault();
+  });
+
+
+  /****************************\
+   ============================
+
+      USER CONTROL FUNCTIONS
+   ============================
+  \****************************/
+
+  // make engine move
+  function makeMove() {
+    // make computer move
+    setTimeout(function() { //set a timeout for the players move to be made and then make the engine move --> without this timeout the player moves seem to lag
+      let bestMove = engine.searchTime(1000); // search for the best move for 1 second
+      engine.makeMove(bestMove);
+      //play move sound
+      playGameSound(bestMove);
+      let fen = engine.generateFen(); //FEN or Forsyth-Edwards-Notation is a chess notation describing a chess position --> FEN is generated by generateFen() function of Wukong.js
+      board.position(fen);
+      //check if game is over for the engine's opponent (stalemate/checkmate)
+      //this function isn't fully functional for now, but will be extended in the near future. It can already detect stalemate and checkmate and display it in the console
+      let gameOver = engine.isGameOver();
+      if (gameOver > 0) {gameOverAnimation(gameOver);}
+    }, 300);
+
+  }
+
+  // on dropping piece
+  function onDrop (source, target) { //if a piece is dropped (move is made, this function is triggered by event handlers in chessboard-1.0.0.min.js)
+    let promotedPiece = (engine.getSide() ? (5 + 6) : 5) // queen promotion only for now
+    let move = source + target + engine.promotedToString(promotedPiece);
+    let validMove = engine.moveFromString(move);
+
+    //console.log('user move', promotedPiece);
+
+    // invalid move
+    if (validMove === 0) return 'snapback'; //this triggers a function in the chessboard-1.0.0.min.js file which then takes the move back
+
+    //generate all legal moves in the position right now
+    let legalMoves = engine.generateLegalMoves();
+    let isLegal = 0;
+
+    //check if the made move is among the valid moves
+    for (let count = 0; count < legalMoves.length; count++) {
+      if (validMove === legalMoves[count].move) isLegal = 1;
+    }
+
+    // illegal move --> take the move back
+    if (isLegal === 0) return 'snapback'; //this triggers a function in the chessboard-1.0.0.min.js file which then takes the move back
+
+    // make user move
+    engine.makeMove(validMove);
+    //add FEN string to invisible textarea
+    fenTextarea.value += engine.generateFen() + "\n";
+    //play move sound
+    playGameSound(validMove);
+    //engine.printBoard();
+
+    // TODO: update game status
+    /*
+    This following section is still in progress. The isGameOver() function is newly implemented by us
+    in the wukong.js file and can already detect checkmates and stalemates. In the near future it will be able
+    to detect material draw, 50 move rule, repetitions and more. The isGameOver() function will later trigger the
+    gameOverAnimation(), which then will display a suited screen or image. The isGameOver() function returns one
+    value at the moment. 1 is checkmate. 2 is stalemate. The values are displayed in the console.
+    */
+    let gameOver = engine.isGameOver();
+
+    if (!gameOver) {
+      // make engine move
+      //makeMove(); //--> add makeMove() to play against engine, remove it to play against other players
+    } else {
+      gameOverAnimation(gameOver); //not implemented yet, just empty function
+    }
+  }
+
+  // update the board position after the piece snap
+  // for castling, en passant, pawn promotion
+  function onSnapEnd () { //updates board representation if en passant, pawn promotion or castling has happened
+    board.position(engine.generateFen());
+  }
+
+
+  /****************************\
+   ============================
+
+           MAIN DRIVER
+   ============================
+  \****************************/
+  // chess board configuration
+  var config = {
+    draggable: true, //pieces can be dragged
+    position: 'start',
+    //onDragStart: onDragStart,
+    onDrop: onDrop, //trigger onDrop function in this file if onDrop event listener (chessboard-1.0.0.min.js) is triggered
+    onSnapEnd: onSnapEnd //trigger onSnapEnd function in this file if onSnapEnd event listener (chessboard-1.0.0.min.js) is triggered
+  }
+
+  // create chess board widget instance (from chessboard-1.0.0.min.css)
+  var board = Chessboard('chessboard', config)
+
+  // create WukongJS engine instance (from wukong.js)
+  const engine = new Engine();
+
+  var fenTextarea = document.getElementById('fen-textarea');
+
+
+ /****************************\
+ ============================
+
+    OWN ADDED FUNCTIONS
+ ============================
+ \****************************/
+
+ //audio for piece movement
+ // http://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/move-self.mp3
+ // http://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/capture.mp3)
+
+ const moveMP3 = new Audio('/static/PlayWukong/mp3/move.mp3');
+ const captureMP3 = new Audio('/static/PlayWukong/mp3/capture.mp3');
+
+ //play capture or move sound
+ function playGameSound(move){
+   //check if the made move is a capture (with the getMoveCapture() function from wukong.js)
+   if (engine.getMoveCapture(move)) {captureMP3.play();} //if capture
+   else {moveMP3.play();} //if normal move
+ }
+
+function gameOverAnimation(type) {
+  //upload game file
+  automaticallyFillForm()
+  // create a new transparent div element
+  const gameOverDiv = document.createElement("div");
+
+  // set the id attribute to "gameOverDiv"
+  gameOverDiv.id = "gameOverDiv";
+
+  //type : 1 --> checkmate, 2 --> stalemate, 3 --> material draw
+  //side : 0 --> white, 1 --> black
+
+  // add h1 element to the div
+  const h1 = document.createElement("h1");
+  if (type === 1) {
+    h1.innerHTML = "Checkmate";
+  } else if (type === 2) {
+    h1.innerHTML = "Stalemate";
+  } else if (type === 3) {
+    h1.innerHTML = "Material Draw";
+  }
+  gameOverDiv.appendChild(h1);
+
+  // add h2 element to the div
+  const h2 = document.createElement("h2");
+  if (type === 1) {
+    const side = engine.getSide();
+    if (side === 0) {
+      h2.innerHTML = "Black won";
+    } else {
+      h2.innerHTML = "White won";
+    }
+  }
+  gameOverDiv.appendChild(h2);
+
+  // Get the chessboard div and add the new div to it
+  const chessboard = document.getElementById("chessboard");
+  chessboard.appendChild(gameOverDiv);
+}
+
+
+
+
+function automaticallyFillForm() {
+
+  var text = document.getElementById("fen-textarea").value;
+
+  // generate a unique title for the file
+  const uniqueTitle = `empty_file_${Date.now()}.txt`;
+
+  // create a new File object with an empty Blob as its content
+  const emptyFile = new File([text], uniqueTitle, {
+    type: "text/plain",
+    lastModified: Date.now(),
+  });
+
+  // get the file input element
+  const fileInput = document.querySelector("#id_file");
+
+  // set the value of the file input element to the empty File object
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(emptyFile);
+  fileInput.files = dataTransfer.files
+
+  // set the value of the title input element to the unique title
+  const titleInput = document.querySelector("#id_title");
+  titleInput.value = uniqueTitle;
+
+  // get the form element
+  const form = document.querySelector("#uploadformForm");
+
+  // create a new XMLHttpRequest object
+  const xhr = new XMLHttpRequest();
+
+  // set the form data as the request body
+  const formData = new FormData(form);
+
+  // set up the onload function
+  xhr.onload = function() {
+    // check if the request was successful
+    if (xhr.status === 200) {
+      // update the page with the new file
+      // you can use this space to update the page as desired
+      console.log("File uploaded successfully");
+    } else {
+      // display an error message
+      console.log("File upload failed");
+    }
+  };
+
+  // set up the onerror function
+  xhr.onerror = function() {
+    // display an error message
+    console.log("File upload failed");
+  };
+
+  // open the request
+  xhr.open(form.method, form.action);
+
+  // send the request
+  xhr.send(formData);
+}
+
+
+</script>

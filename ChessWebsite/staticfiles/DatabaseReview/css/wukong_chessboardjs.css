@@ -1,0 +1,210 @@
+body {
+  background-image: url('/static/PlayPlayer/img/playPlayerBackground.png');
+  background-size: 110%;
+}
+
+.col {
+  margin-top: -30px; /* adjust this value to move the column up */
+}
+
+
+/* Style the navigation bar */
+nav {
+  background-color: #333; /* Set the background color */
+  height: 10vh; /* Set the height to 10% of the viewport height */
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space out items evenly */
+  align-items: center; /* Center vertically */
+  padding: 0 2rem; /* Add horizontal padding */
+  width: 99%; /* Set the width of the navbar to 99% of the screen */
+  margin: 40px auto 0 auto; /* Center the navbar in the window */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+/* Style the left side of the navbar */
+.navbar-left {
+  display: flex; /* Use flexbox for layout */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  flex-grow: 1; /* Allow the navbar to grow */
+}
+
+/* Style the links on the left side of the navbar */
+.navbar-left a {
+  color: #f0d9b5; /* Set the text color */
+  font-size: 1.25rem; /* Set the font size */
+  font-family: 'Open Sans', sans-serif; /* Set the font family */
+  text-decoration: none; /* Remove underlines */
+  margin: 0 2rem; /* Add horizontal margin */
+}
+
+/* Style the links on the left side of the navbar when hovered */
+.navbar-left a:hover {
+  color: #666; /* Change the text color on hover */
+}
+
+/* Style the right side of the navbar */
+.navbar-right {
+  display: flex; /* Use flexbox for layout */
+  justify-content: flex-end; /* Align to the right */
+  align-items: center; /* Center vertically */
+  padding-right: 50px; /* Add right padding */
+  margin-left: -50px; /* Move the right side to the left to align with the center */
+}
+
+/* Style the dropdown menu */
+.dropdown {
+  position: relative; /* Set position to relative */
+  display: inline-block; /* Display as an inline block */
+}
+
+/* Style the dropdown button */
+.dropbtn {
+  color: #f0d9b5; /* Set the text color */
+  font-size: 1.25rem; /* Set the font size */
+  font-family: 'Open Sans', sans-serif; /* Set the font family */
+  text-decoration: none; /* Remove underlines */
+  background-color: transparent; /* Set the background color to transparent */
+  border: none; /* Remove the border */
+  cursor: pointer; /* Add a pointer cursor */
+}
+/* CSS for the dropdown menu content */
+.dropdown-content {
+  display: none; /* initially hide the dropdown menu content */
+  position: absolute; /* position the dropdown menu content absolutely with respect to the nearest positioned ancestor */
+  z-index: 1; /* set the z-index to be above other elements on the page */
+  background-color: #333; /* set the background color of the dropdown menu content */
+  min-width: 160px; /* set the minimum width of the dropdown menu content */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* add a box shadow effect to the dropdown menu content */
+  padding: 12px 16px; /* add padding to the dropdown menu content */
+  border: 1px solid #f0d9b5; /* add a border to the dropdown menu content */
+}
+
+.dropdown-content a {
+  color: #f0d9b5; /* set the text color of the dropdown menu items */
+  font-size: 1.25rem; /* set the font size of the dropdown menu items */
+  font-family: 'Open Sans', sans-serif; /* set the font family of the dropdown menu items */
+  text-decoration: none; /* remove the underline from the dropdown menu items */
+  display: block; /* make the dropdown menu items block-level elements */
+}
+
+.dropdown-content a:hover {
+  color: #666; /* set the text color of the dropdown menu items when hovered over */
+}
+
+.dropdown:hover .dropdown-content {
+  display: block; /* show the dropdown menu content when the parent dropdown is hovered over */
+}
+
+/* Media query for small screens */
+@media screen and (max-width: 768px) {
+  nav {
+    flex-direction: column; /* change the flex-direction of the navbar to column */
+    height: auto; /* set the height of the navbar to auto */
+    padding: 2rem 1rem; /* add padding to the navbar */
+  }
+
+  .navbar-left, .navbar-right {
+    display: flex; /* make the navbar-left and navbar-right sections of the navbar flex containers */
+    justify-content: center; /* center the content horizontally within the navbar-left and navbar-right sections */
+    align-items: center; /* center the content vertically within the navbar-left and navbar-right sections */
+    flex-grow: 1; /* allow the navbar-left and navbar-right sections to grow to fill available space */
+  }
+
+  .navbar-left a, .navbar-right a {
+    font-size: 1.2rem; /* set the font size of the navbar links */
+    margin: 0.5rem; /* add margin to the navbar links */
+  }
+}
+
+/* chat box styling */
+.chat-container {
+  position: fixed;
+  width : 25vw;
+  bottom: 5vh ;
+  right: 10px;
+  background-color: #333;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 9999;
+}
+
+#chat-log {
+  resize: none;
+  background-color: rgb(195, 162, 125);
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  overflow-y: scroll;
+}
+
+#chat-log::-webkit-scrollbar {
+  width: 10px;
+}
+
+#chat-log::-webkit-scrollbar-track {
+  background-color: rgb(195, 162, 125);
+}
+
+#chat-log::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+
+.chat-input-container {
+  display: flex;
+}
+
+#chat-message-input {
+  background-color: rgb(195, 162, 125);
+  color : #333;
+  flex-grow: 1;
+  margin-right: 10px;
+  width: 90%;
+}
+
+#chat-message-input::placeholder {
+  color : #333;
+}
+#chat-message-submit {
+  background-color: rgb(195, 162, 125);
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#gameOverDiv {
+  width: 700px;
+  height: 700px;
+  opacity: 0.9;
+  position: absolute;
+  top: 52.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background-color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gameOverDiv h1 {
+  color: rgb(195, 162, 125);
+  text-align: center;
+}
+
+#gameOverDiv h2 {
+  position: absolute;
+  top: 55%;
+  transform: translateY(50%);
+  color: rgb(195, 162, 125);
+  text-align: center;
+}

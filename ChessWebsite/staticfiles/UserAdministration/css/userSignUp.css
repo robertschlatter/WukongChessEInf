@@ -1,0 +1,160 @@
+/* Set the background image for the body */
+body{
+  background-image: url('/static/UserAdministration/img/userRegistrationBackground.png');
+  background-size: cover;
+}
+
+/* Style the navigation bar */
+nav {
+  background-color: #333;
+  height: 10vh; /* Set the height of the navbar */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem; /* Add padding to the navbar */
+  width: 99%; /* Set the width of the navbar to 99% of the screen */
+  margin: 40px auto 0 auto; /* Center the navbar in the window */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add a box shadow */
+}
+
+/* Style the left side of the navbar */
+.navbar-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1; /* Allow the element to grow */
+}
+
+/* Style the links on the left side of the navbar */
+.navbar-left a {
+  color: #f0d9b5; /* Set the color of the links */
+  font-size: 1.25rem; /* Set the font size of the links */
+  font-family: 'Open Sans', sans-serif; /* Set the font family of the links */
+  text-decoration: none; /* Remove underline from the links */
+  margin: 0 2rem; /* Add margin to the links */
+}
+
+/* Style the links on the left side of the navbar when hovered */
+.navbar-left a:hover {
+  color: #666; /* Change the color of the links when hovered */
+}
+
+/* Style the right side of the navbar */
+.navbar-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 50px;
+  margin-left: -50px; /* Offset the element to the left */
+}
+
+/* Style the dropdown menu */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Style the dropdown button */
+.dropbtn {
+  color: #f0d9b5; /* Set the color of the dropdown button */
+  font-size: 1.25rem; /* Set the font size of the dropdown button */
+  font-family: 'Open Sans', sans-serif; /* Set the font family of the dropdown button */
+  text-decoration: none; /* Remove underline from the dropdown button */
+  background-color: transparent; /* Set the background color of the dropdown button */
+  border: none; /* Remove border from the dropdown button */
+  cursor: pointer; /* Change the cursor to pointer */
+}
+
+/* Style the dropdown content */
+.dropdown-content {
+  display: none; /* Hide the dropdown content */
+  position: absolute;
+  z-index: 1;
+  background-color: #333; /* Set the background color of the dropdown content */
+  min-width: 160px; /* Set the minimum width of the dropdown content */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Add a box shadow */
+  padding: 12px 16px; /* Add padding to the dropdown content */
+  border: 1px solid #f0d9b5; /* Add a border to the dropdown content */
+}
+/* styling for dropdown content */
+.dropdown-content a {
+  color: #f0d9b5; /* sets font color for dropdown links */
+  font-size: 1.25rem; /* sets font size for dropdown links */
+  font-family: 'Open Sans', sans-serif; /* sets font family for dropdown links */
+  text-decoration: none; /* removes underline for dropdown links */
+  display: block; /* makes dropdown links block elements */
+}
+
+/* hover effect for dropdown links */
+.dropdown-content a:hover {
+  color: #666; /* changes font color of dropdown link on hover */
+}
+
+/* displays dropdown content when hovering over dropdown */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* responsive styling for navigation bar on small screens */
+@media screen and (max-width: 768px) {
+  nav {
+    flex-direction: column; /* changes direction of navbar to vertical */
+    height: auto; /* adjusts height of navbar */
+    padding: 2rem 1rem; /* adjusts padding of navbar */
+  }
+
+  .navbar-left, .navbar-right {
+    display: flex; /* changes display to flex for navbar items */
+    justify-content: center; /* centers items horizontally */
+    align-items: center; /* centers items vertically */
+    flex-grow: 1; /* allows items to grow horizontally */
+  }
+
+  .navbar-left a, .navbar-right a {
+    font-size: 1.2rem; /* adjusts font size of navbar links */
+    margin: 0.5rem; /* adjusts margin of navbar links */
+  }
+}
+
+/* styling for register form container */
+.container{
+  margin: 5rem 0 0 auto; /* adjusts margin of form container */
+}
+
+/* styling for form group container */
+.form-group {
+  display: flex; /* sets form group container to flex */
+  flex-direction: column; /* sets flex direction to vertical */
+  margin-bottom: 1rem; /* adjusts margin of form group container */
+}
+
+/* styling for input fields */
+.form-group input {
+  background-color: #f0d9b5; /* sets background color of input fields */
+  color: #333; /* sets font color of input fields */
+}
+
+/* hover effect for input fields */
+.form-group input:focus {
+  border: 2px solid rgb(235, 221, 184); /* sets border color of input field on focus */
+  outline: none; /* removes default outline */
+}
+
+/* background color and font color for card body and header */
+.card-body, .card-header {
+  background-color: #333; /* sets background color of card body and header */
+  color : #f0d9b5; /* sets font color of card body and header */
+}
+
+/* font family for all text */
+body {
+  font-family: 'Open Sans', sans-serif; /* sets font family for all text on website */
+}
+
+/* styling for primary button */
+.btn.btn-primary.btn-block {
+  margin-top: 2rem; /* adjusts margin of button */
+  background-color: #b58863; /* sets background color of button */
+  color : rgb(235, 221, 184); /* sets font color of button */
+  border: none; /* removes button border */
+}

@@ -1,9 +1,16 @@
-from django.shortcuts import render  # Import the render function to return an HTML template response
+from django.shortcuts import render, redirect  # Import the render function to return an HTML template response
+from DatabaseReview.forms import FileUploadForm
+from DatabaseReview.models import ChessGameFile
 
 # Define the view function to handle the request
-def playWukongView(requests, ID):
-    # Define an empty context dictionary
-    context = {}
-    # Render the HTML template 'PlayWukong/wukong_chessboardjs.html' with the empty context dictionary as a parameter
-    # and return the resulting HTML as the response to the request
-    return render(requests, 'PlayWukong/wukong_chessboardjs.html', context)
+def playWukongView(request, ID):
+    files = ChessGameFile.objects.all()
+    if request.method == 'POST':
+        form = FileUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('playPlayerView')
+    else:
+        form = FileUploadForm()
+    return render(request, 'PlayWukong/wukong_chessboardjs.html', {'form': form,'files': files, 'ID':ID})
+

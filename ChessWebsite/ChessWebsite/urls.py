@@ -13,10 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 #Import necessary modules
 
 from django.contrib import admin
 from django.urls import path, include
+
+from . import settings
 
 #Define URL patterns
 
@@ -34,7 +37,10 @@ path('playPlayer/', include('PlayPlayer.urls')),
 path('', include('StartScreen.urls')),
 
 # URL pattern for UserAdministration app
-path('user/', include('UserAdministration.urls'))
+path('user/', include('UserAdministration.urls')),
+
+# URL pattern for DatabaseReview app
+path('database/', include('DatabaseReview.urls'))
 ]
 
 #Note: urlpatterns is a list of URL patterns used by Django.
@@ -42,3 +48,7 @@ path('user/', include('UserAdministration.urls'))
 #Each URL pattern maps a URL to a view that handles the request.
 
 #The include() function is used to reference other URL pattern files within the project.
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

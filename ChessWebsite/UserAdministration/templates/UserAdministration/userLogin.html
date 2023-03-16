@@ -39,7 +39,7 @@ Datum: 7.3.2023
          Note that the Lobby ID is always 1, this is for testing purposes and will later be dynamically generated-->
         <a href="{% url 'playWukongView' 1 %}">Play Wukong</a>
         <a href="{% url 'playPlayerView' 1 %}">Play Player</a>
-        <a href="#">About</a>
+        <a href="{% url 'databaseReviewView' %}">Database</a>
       </div>
       <div class="navbar-right">
         <!-- if the user is logged in, the dropdown menu displays the logout link-->

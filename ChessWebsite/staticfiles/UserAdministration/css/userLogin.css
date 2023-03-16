@@ -1,0 +1,196 @@
+body{
+  /* Set the background image */
+  background-image: url('/static/UserAdministration/img/userLoginBackground.png');
+  /* Scale the background image to cover the entire viewport */
+  background-size: cover;
+}
+
+/* navbar styling */
+/* Style the entire navbar */
+nav {
+  /* Set the background color */
+  background-color: #333;
+  /* Set the height to 10% of the viewport height */
+  height: 10vh;
+  /* Make the navbar a flex container */
+  display: flex;
+  /* Spread out the items in the navbar */
+  justify-content: space-between;
+  /* Center items vertically */
+  align-items: center;
+  /* Add padding to the left and right sides */
+  padding: 0 2rem;
+  /* Set the width to 99% of the screen */
+  width: 99%;
+  /* Center the navbar horizontally */
+  margin: 40px auto 0 auto;
+  /* Add a shadow effect */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the left side of the navbar */
+.navbar-left {
+  /* Make the left side a flex container */
+  display: flex;
+  /* Spread out items horizontally */
+  justify-content: center;
+  /* Center items vertically */
+  align-items: center;
+  /* Allow the left side to grow */
+  flex-grow: 1;
+}
+
+/* Style links in the left side of the navbar */
+.navbar-left a {
+  /* Set the link color */
+  color: #f0d9b5;
+  /* Set the font size */
+  font-size: 1.25rem;
+  /* Set the font family */
+  font-family: 'Open Sans', sans-serif;
+  /* Remove underlines from the link */
+  text-decoration: none;
+  /* Add margin to the left and right sides of the link */
+  margin: 0 2rem;
+}
+
+/* Style link hover effect in the left side of the navbar */
+.navbar-left a:hover {
+  /* Change the link color on hover */
+  color: #666;
+}
+
+/* Style the right side of the navbar */
+.navbar-right {
+  /* Make the right side a flex container */
+  display: flex;
+  /* Spread out items to the right */
+  justify-content: flex-end;
+  /* Center items vertically */
+  align-items: center;
+  /* Add padding to the right side */
+  padding-right: 50px;
+  /* Move the right side to the left by 50px */
+  margin-left: -50px;
+}
+
+/* Style dropdown menu */
+.dropdown {
+  /* Set the position to relative */
+  position: relative;
+  /* Make the dropdown a block-level element */
+  display: inline-block;
+}
+
+/* Style the dropdown button */
+.dropbtn {
+  /* Set the link color */
+  color: #f0d9b5;
+  /* Set the font size */
+  font-size: 1.25rem;
+  /* Set the font family */
+  font-family: 'Open Sans', sans-serif;
+  /* Remove the background color */
+  background-color: transparent;
+  /* Remove the border */
+  border: none;
+  /* Change the cursor to a pointer */
+  cursor: pointer;
+}
+.dropdown-content {
+  /* Set the dropdown content to be hidden by default */
+  display: none;
+  /* Set the position of the dropdown content to absolute, so it's positioned relative to the nearest positioned ancestor */
+  position: absolute;
+  /* Set the z-index of the dropdown content to 1, so it appears on top of other content */
+  z-index: 1;
+  background-color: #333;
+  min-width: 160px;
+  /* Set the box shadow of the dropdown content */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  border: 1px solid #f0d9b5;
+}
+
+.dropdown-content a {
+  color: #f0d9b5;
+  font-size: 1.25rem;
+  font-family: 'Open Sans', sans-serif;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  color: #666;
+}
+
+.dropdown:hover .dropdown-content {
+  /* When the dropdown is hovered, display the dropdown content */
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  nav {
+    /* Set the flex direction of the navigation menu to be vertical */
+    flex-direction: column;
+    height: auto;
+    padding: 2rem 1rem;
+  }
+
+  .navbar-left, .navbar-right {
+    /* Center the navbar items horizontally and vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Allow the navbar items to grow to fill the available space */
+    flex-grow: 1;
+  }
+
+  .navbar-left a, .navbar-right a {
+    font-size: 1.2rem;
+    margin: 0.5rem;
+  }
+}
+
+/* Login form styling */
+.container {
+  margin: 5rem auto 0 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+/* Set the background color and text color of the input fields */
+.form-group input {
+  background-color: #f0d9b5;
+  color: #333;
+}
+
+/* Set the border and outline of the input fields when they are focused */
+.form-group input:focus {
+  border: 2px solid rgb(235, 221, 184);
+  outline: none;
+}
+
+/* Set the background color and text color of the form */
+.card-body,
+.card-header {
+  background-color: #333;
+  color: #f0d9b5;
+}
+
+/* Set the font family for all text */
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Set the margin, background color, text color, and border of the primary button */
+.btn.btn-primary.btn-block {
+  margin-top: 2rem;
+  background-color: #b58863;
+  color: rgb(235, 221, 184);
+  border: none;
+}
