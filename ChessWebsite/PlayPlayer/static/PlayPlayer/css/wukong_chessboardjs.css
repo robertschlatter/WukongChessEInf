@@ -119,8 +119,8 @@ nav {
 
 /* chat box styling */
 .chat-container {
-  position: fixed;
-  width : 25vw;
+  position: absolute;
+  width : calc(50vw - 350px - 2vw);
   bottom: 5vh ;
   right: 10px;
   background-color: #333;

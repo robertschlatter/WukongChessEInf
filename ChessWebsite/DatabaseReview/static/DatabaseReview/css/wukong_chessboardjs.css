@@ -148,12 +148,12 @@ nav {
 /* Style for the entire file management section */
 #file-management {
   position: absolute;
-  top: 25vh;
+  top: 28vh;
   right: 1vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: calc(50vw - 350px - 2vw);
+  width: calc(50vw - 350px - 8vw);
   z-index: 9999;
 }
 
@@ -306,10 +306,10 @@ nav {
 
 #fen-textarea {
   position: absolute;
-  bottom: 0;
+  top: 50vh;
   left: 0;
   height: 300px;
-  width: calc(50vw - 350px - 2vw);
+  width: calc(50vw - 350px - 6vw);
   overflow: scroll;
   resize: none;
   z-index: 9999;
