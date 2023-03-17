@@ -148,7 +148,7 @@ nav {
 /* Style for the entire file management section */
 #file-management {
   position: absolute;
-  bottom: 0;
+  top: 25vh;
   right: 1vw;
   display: flex;
   flex-wrap: wrap;
@@ -157,6 +157,7 @@ nav {
   max-width: 800px;
   z-index: 9999;
 }
+
 
 /* Style for the upload form */
 #uploadForm {
@@ -305,7 +306,7 @@ nav {
   bottom: 0;
   left: 0;
   height: 300px;
-  width: 500px;
+  width: 25vw;
   overflow: scroll;
   resize: none;
   z-index: 9999;
@@ -326,7 +327,7 @@ nav {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color:rgb(195, 162, 125);;
+  background-color: rgb(205 163 137);
   border-radius: 5px;
 }
 
