@@ -91,8 +91,8 @@ comments explaining the functionality of certain elements in the code below.
           <a href="{% url 'startScreenLobbyView' %}">Home</a>
           <!-- the following links lead to the sites where you can play against other players or the Wukong bot.
            Note that the Lobby ID is always 1, this is for testing purposes and will later on be dynamically generated-->
-          <a href="{% url 'playWukongView' 1 %}">Play Wukong</a>
-          <a href="{% url 'playPlayerView' 1 %}">Play Player</a>
+          <a href="{% url 'playWukongView' randomNum  %}">Play Wukong</a>
+          <a href="{% url 'playPlayerView' randomNum %}">Play Player</a>
           <a href="{% url 'databaseReviewView' %}">Database</a>
         </div>
         <div class="navbar-right">
@@ -157,7 +157,6 @@ comments explaining the functionality of certain elements in the code below.
     } else if(event.key == "b" || event.key == "B") {
       // take back move
       engine.takeBack();
-
       // update board position
       board.position(engine.generateFen());
     } else if(event.key == "f" || event.key == "F") {
@@ -166,7 +165,6 @@ comments explaining the functionality of certain elements in the code below.
     } else if(event.key == "n" || event.key == "N") {
       // set board
       engine.setBoard(engine.START_FEN);
-
       // set initial board position --> board is an instance from the chessboard.1.0.0.min.js file
       board.position('start');
     }
@@ -385,7 +383,7 @@ function automaticallyFillForm() {
   var text = document.getElementById("fen-textarea").value;
 
   // generate a unique title for the file
-  const uniqueTitle = `empty_file_${Date.now()}.txt`;
+  const uniqueTitle = `DatabaseGame${Date.now()}.txt`;
 
   // create a new File object with an empty Blob as its content
   const emptyFile = new File([text], uniqueTitle, {

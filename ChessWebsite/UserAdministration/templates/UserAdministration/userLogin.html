@@ -37,8 +37,8 @@ Datum: 7.3.2023
         <a href="{% url 'startScreenLobbyView' %}">Home</a>
         <!-- the following links lead to the sites where you can play against other players or the Wukong bot
          Note that the Lobby ID is always 1, this is for testing purposes and will later be dynamically generated-->
-        <a href="{% url 'playWukongView' 1 %}">Play Wukong</a>
-        <a href="{% url 'playPlayerView' 1 %}">Play Player</a>
+        <a href="{% url 'playWukongView' randomNum  %}">Play Wukong</a>
+        <a href="{% url 'playPlayerView' randomNum %}">Play Player</a>
         <a href="{% url 'databaseReviewView' %}">Database</a>
       </div>
       <div class="navbar-right">

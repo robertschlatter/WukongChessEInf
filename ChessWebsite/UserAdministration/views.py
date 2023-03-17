@@ -2,6 +2,7 @@
 # This file is an essential part of any Django project as it defines how data is presented to users and how users interact with the system.
 # In this specific views.py file, there are three views defined: userLoginView, userSignUpView, and userLogoutView.
 # The userLoginView handles user authentication, userSignUpView handles user registration, and userLogoutView handles user log out.
+from random import randint
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -9,6 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 
 # View for user login
 def userLoginView(request):
+    randomNum = randint(0, 10000000)
     # Create an instance of the AuthenticationForm
     loginForm = AuthenticationForm()
 
@@ -32,11 +34,12 @@ def userLoginView(request):
         # If the request method is not POST, create an instance of the AuthenticationForm
         loginForm = AuthenticationForm(request)
     # Render the userLogin.html template with the loginForm instance
-    return render(request, 'UserAdministration/userLogin.html', {'loginForm': loginForm})
+    return render(request, 'UserAdministration/userLogin.html', {'loginForm': loginForm,'randomNum' : randomNum})
 
 
 # View for user signup
 def userSignUpView(request):
+    randomNum = randint(0, 10000000)
     # Create an instance of the UserCreationForm
     registerForm = UserCreationForm()
 
@@ -50,12 +53,13 @@ def userSignUpView(request):
             return redirect('UserAdministrationLoginView')
 
     # Render the userSignUp.html template with the registerForm instance
-    context = {'registerForm' : registerForm}
+    context = {'registerForm' : registerForm,'randomNum' : randomNum}
     return render(request, 'UserAdministration/userSignUp.html', context)
 
 
 # View for user logout
 def userLogoutView(request):
+    randomNum = randint(0, 10000000)
     # Log the user out
     logout(request)
     # Redirect the user to the startScreenLobbyView
