@@ -49,7 +49,7 @@ comments explaining the functionality of certain elements in the code below.
   {% block fileManagement %}
     <div id="file-management">
       <div id="uploadForm">
-        <h2>Upload a file</h2>
+        <h3>Upload a file</h3>
         <form id="uploadformForm" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form.as_p }}
@@ -58,7 +58,7 @@ comments explaining the functionality of certain elements in the code below.
       </div>
 
       <div id="viewFiles">
-        <h2>Uploaded files</h2>
+        <h3>Uploaded files</h3>
         <ul>
           {% for file in files %}
             <li><a href="{{ file.file.url }}">{{ file.title }}</a></li>
@@ -67,7 +67,7 @@ comments explaining the functionality of certain elements in the code below.
       </div>
 
       <div id="deleteFiles">
-        <h2>Delete files</h2>
+        <h3>Delete files</h3>
         <ul>
           {% for file in files %}
             <li>
