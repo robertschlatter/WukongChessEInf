@@ -153,7 +153,7 @@ nav {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: calc(50vw - 350px - 8vw);
+  width: calc(50vw - 350px - 6vw);
   z-index: 9999;
 }
 
@@ -309,7 +309,7 @@ nav {
   top: 50vh;
   left: 0;
   height: 300px;
-  width: calc(50vw - 350px - 6vw);
+  width: calc(50vw - 350px - 5vw);
   overflow: scroll;
   resize: none;
   z-index: 9999;
