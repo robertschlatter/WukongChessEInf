@@ -485,6 +485,12 @@ function automaticallyFillForm() {
   xhr.send(formData);
 }
 
+//Background music
+let audio = new Audio('/static/PlayWukong/mp3/backgroundMusic.mp3');
+audio.addEventListener('ended', function() {
+    this.play();
+}, false);
+audio.play();
 
 
 

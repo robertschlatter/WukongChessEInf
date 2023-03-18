@@ -7,3 +7,4 @@ urlpatterns = [
     # The name 'startScreenLobbyView' is used to identify this URL pattern and can be referred to elsewhere in the Django application.
     path('', startScreenLobbyView, name='startScreenLobbyView'),
 ]
+

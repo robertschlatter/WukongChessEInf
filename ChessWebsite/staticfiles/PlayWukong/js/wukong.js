@@ -2146,6 +2146,7 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
     isSquareAttacked: function(square, color) { return isSquareAttacked(square, color); },
 
     isGameOver: function (){
+
       let legalMovesLength = generateLegalMoves().length;
       let sideIsCheck = this.inCheck(engine.getSide());
 
@@ -2153,7 +2154,54 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
       else if (legalMovesLength < 1 && !sideIsCheck) {return 2;} //stalemate
       return false; //game is not over
         },
+/*
+    isGameOver: function () {
+  let legalMovesLength = generateLegalMoves().length;
+  let sideIsCheck = this.inCheck(engine.getSide());
+  let insufficientMaterialDraw = this.insufficientMaterialDraw();
 
+  if (legalMovesLength < 1 && sideIsCheck) {
+    return 1; // checkmate
+  } else if (legalMovesLength < 1 && !sideIsCheck) {
+    if (insufficientMaterialDraw) {
+      return 3; // draw by insufficient material
+    }
+    return 2; // stalemate
+  } else if (insufficientMaterialDraw) {
+    return 3; // draw by insufficient material
+  }
+  return false; // game is not over
+},
+
+insufficientMaterialDraw: function () {
+  const pieces = { "K": 2, "Q": 0, "R": 0, "B": 0, "N": 0, "P": 0 };
+  const colors = ["w", "b"];
+  let totalPieces = 0;
+
+  // Count the number of each type of piece on the board
+  for (let i = 0; i < 64; i++) {
+    const piece = this.board[i];
+    if (piece === null) {
+      continue;
+    }
+    const type = piece.type.toUpperCase();
+    pieces[type]++;
+    totalPieces++;
+  }
+
+  // Check if there are any queens or pawns on the board
+  if (pieces["Q"] > 0 || pieces["P"] > 0) {
+    return false;
+  }
+
+  // Check if there are only kings or knights on the board
+  if (totalPieces === 2 || (totalPieces === 3 && (pieces["B"] === 1 || pieces["N"] === 1))) {
+    return true;
+  }
+
+  return false;
+},
+*/
     // uci
     setHashSize: function(Mb) { setHashSize(Mb); },
 

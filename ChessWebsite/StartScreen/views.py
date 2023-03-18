@@ -10,3 +10,4 @@ def startScreenLobbyView(requests):
     # Render the HTML template 'StartScreen/startScreenLobby.html' with the empty context dictionary as a parameter
     # and return the resulting HTML as the response to the request
     return render(requests, 'StartScreen/startScreenLobby.html', context)
+
